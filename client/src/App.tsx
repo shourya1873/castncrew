@@ -1,35 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+// import About from "./pages/About";
+import NotFound from "./pages/NotFound";
 
-function App() {
-  const [count, setCount] = useState(0)
+// import AdminDashboard from "./pages/admin/Dashboard";
+// import ArtistDashboard from "./pages/artist/ArtistDashboard";
+// import MakerDashboard from "./pages/maker/MakerDashboard";
 
+// import ProtectedRoute from "./routes/ProtectedRoute";
+import GuestRoute from "./routes/GuestRoute";
+import SignUp from "./pages/SignUp";
+
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <Router>
+      <Routes>
+        {/* Guest & Public Routes */}
+        <Route path="/" element={<Home />} />
+        {/* <Route path="/about" element={<About />} /> */}
 
-export default App
+        {/* Example Guest-only route */}
+        <Route
+          path="/signup"
+          element={
+            <GuestRoute>
+              <SignUp />
+            </GuestRoute>
+          }
+        />
+
+        {/* Admin Protected */}
+        {/* <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        /> */}
+
+        {/* Artist Protected */}
+        {/* <Route
+          path="/artist/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={["artist"]}>
+              <ArtistDashboard />
+            </ProtectedRoute>
+          }
+        /> */}
+
+        {/* Maker Protected */}
+        {/* <Route
+          path="/maker/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={["maker"]}>
+              <MakerDashboard />
+            </ProtectedRoute>
+          }
+        /> */}
+
+        {/* 404 Route */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Router>
+  );
+}
